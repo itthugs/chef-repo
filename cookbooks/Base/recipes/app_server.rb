@@ -16,3 +16,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
+case node[:platform]
+when "ubuntu","debian"
+  %w{build-essential zlib1g-dev libssl-dev libreadline5-dev}.each do |pkg|
+    package pkg do
+      action :install
+    end
+  end
+end
