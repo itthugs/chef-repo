@@ -39,5 +39,17 @@ unless File.exists?('/opt/nginx/conf/nginx.conf')
     group "root"
     mode 0644
   end
+  
+  template "/etc/init.d/nginx" do
+    source "nginx.erb"
+    owner "root"
+    group "root"
+    mode 0744
+  end
+  
+  service "nginx" do
+    supports [ :stop, :start, :restart, :reload ]
+    action [ :enable, :start ]
+  end
 end
 
