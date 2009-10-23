@@ -12,8 +12,8 @@
  
  
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-DAEMON=/opt/nginx/sbin/nginx
-DAEMON_OPTS= "-c /etc/nginx.conf"
+DAEMON=<%= @node[:nginx][:dir] %>/sbin/nginx
+DAEMON_OPTS= "-c <%= @node[:nginx][:dir] %>/conf/nginx.conf"
 NAME=nginx
 DESC=nginx
 PID=/var/run/nginx.pid

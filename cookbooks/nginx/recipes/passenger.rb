@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-unless File.exists?('/opt/nginx/conf/nginx.conf') do
+unless File.exists?('/opt/nginx/conf/nginx.conf')
   script "install_nginx" do
     interpreter "bash"
     user "root"
@@ -28,12 +28,12 @@ unless File.exists?('/opt/nginx/conf/nginx.conf') do
     passenger-install-nginx-module --auto --nginx-source-dir=/tmp/nginx-0.7.62 --extra-configure-flags=--with-http_ssl_module --prefix=#{node[:nginx][:dir]}
     EOH
   end
+
+  template "#{node[:nginx][:dir]}/conf/nginx.conf" do
+    source "nginx.conf.erb"
+    owner "root"
+    group "root"
+    mode 0644
+  end
 end
 
-template "nginx.conf" do
-  path "#{node[:nginx][:dir]}/nginx.conf"
-  source "nginx.conf.erb"
-  owner "root"
-  group "root"
-  mode 0644
-end
