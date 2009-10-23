@@ -23,14 +23,14 @@ unless File.exists?('/opt/nginx/conf/nginx.conf')
     user "root"
     cwd "/tmp"
     code <<-EOH 
-    wget http://sysoev.ru/nginx/nginx-0.7.62.tar.gz
-    tar -zxf nginx-0.7.62.tar.gz
-    passenger-install-nginx-module --auto --nginx-source-dir=/tmp/nginx-0.7.62 --extra-configure-flags=--with-http_ssl_module --prefix=#{node[:nginx][:dir]}
+    wget #{node[:nginx][:fetch_url]}
+    tar -zxf #{node[:nginx][:fetched_file]}
+    passenger-install-nginx-module --auto --nginx-source-dir=/tmp/#{node[:nginx][:fetched_file].gsub(node[:nginx][:fetched_file_extension],'')} --extra-configure-flags=#{node[:nginx][:extra_configure_flags]} --prefix=#{node[:nginx][:dir]}
+    ln -s #{node[:nginx][:dir]}/sbin/nginx /usr/bin/nginx
+    rm -fR /tmp/#{node[:nginx][:fetched_file].gsub(node[:nginx][:fetched_file_extension],'')}
+    rm -f #{node[:nginx][:fetched_file]}
+    rm -f #{node[:nginx][:dir]}/conf/nginx.conf.default
     EOH
-  end
-  
-  bash "remove default nginx.conf" do
-    code "rm #{node[:nginx][:dir]}/conf/nginx.conf"
   end
 
   template "#{node[:nginx][:dir]}/conf/nginx.conf" do

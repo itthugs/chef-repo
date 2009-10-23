@@ -2,10 +2,16 @@ nginx Mash.new unless attribute?("nginx")
 
 case platform
 when "debian","ubuntu"
-  nginx[:dir]     = "/opt/nginx"
-  nginx[:log_dir] = "/var/log/nginx"
+  nginx[:dir]     = '/opt/nginx'
+  nginx[:log_dir] = '/var/log/nginx'
   nginx[:user]    = 'nobody'
 end
+
+nginx[:fetch_url] = 'http://sysoev.ru/nginx/nginx-0.7.62.tar.gz'
+nginx[:fetched_file] = nginx[:fetch_url].split('/')[-1]
+nginx[:fetched_file_extension] = '.tar.gz'
+
+nginx[:extra_configure_flags] = "--with-http_ssl_module"
 
 nginx[:gzip] = "on"               unless attribute?("nginx_gzip")
 nginx[:gzip_http_version] = "1.0" unless attribute?("nginx_gzip_http_version")
