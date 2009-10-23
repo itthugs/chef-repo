@@ -28,6 +28,10 @@ unless File.exists?('/opt/nginx/conf/nginx.conf')
     passenger-install-nginx-module --auto --nginx-source-dir=/tmp/nginx-0.7.62 --extra-configure-flags=--with-http_ssl_module --prefix=#{node[:nginx][:dir]}
     EOH
   end
+  
+  bash "remove default nginx.conf" do
+    code "rm #{node[:nginx][:dir]}/conf/nginx.conf"
+  end
 
   template "#{node[:nginx][:dir]}/conf/nginx.conf" do
     source "nginx.conf.erb"
