@@ -4,7 +4,7 @@ case platform
 when "debian","ubuntu"
   nginx[:dir]     = '/opt/nginx'
   nginx[:log_dir] = '/var/log/nginx'
-  nginx[:user]    = 'nobody'
+  nginx[:user]    = 'root'
 end
 
 nginx[:fetch_url] = 'http://sysoev.ru/nginx/nginx-0.7.62.tar.gz'
